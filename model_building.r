@@ -20,10 +20,6 @@ a$number_available_in_stock = str_replace_all(a$number_available_in_stock, "new"
 
 a$number_available_in_stock = str_replace_all(a$number_available_in_stock, "used", "")
 
-
-
-  
-  ```{r}
 consumerChoice = "878048c41f3c249badb3704e160b4c6e"
 class<-select(a, price, average_review_rating, uniq_id, recommended_age)
 class <- class[1:100,]
