@@ -8,8 +8,6 @@ library(dplyr)
 
 library(tidyr)
 
-#Загрузим данные и уберем из них лишнее:
-
 a=amazon_co_ecommerce_sample
 
 a$price = tolower(a$price)
@@ -23,11 +21,7 @@ a$number_available_in_stock = str_replace_all(a$number_available_in_stock, "new"
 a$number_available_in_stock = str_replace_all(a$number_available_in_stock, "used", "")
 
 
-### Кластеризация
 
-Одна из рекомендательных систем будет строиться на похожести игрушек по цене, рейтингу и количеству оставленных отзывов. 
-
-Отберем нужные переменные:
   
   ```{r}
 consumerChoice = "878048c41f3c249badb3704e160b4c6e"
@@ -38,13 +32,11 @@ rownames(class) <- class$uniq_id
 class <- dplyr::select(class, -uniq_id)
 
 library(lsa)
-#cosine(class)
-#cosine(t(data[1:3,])) #транспонируем данные, так как предыдущая функция работает со столбцами (находит схожесть столбцов)
 class$price <- as.numeric(class$price)
 class$average_review_rating <- as.numeric(class$average_review_rating)
 
 #dist = cosine(t(class))
-class[is.na(class)] = 0 #решаем вопрос с NA, которые могли возникнуть из-за первоначального пропуска данных
+class[is.na(class)] = 0 
 dist = cosine(t(class))
 
 finalrecommend = tail(sort(dist[consumerChoice,]))
@@ -82,7 +74,7 @@ modelX$price <- as.numeric(modelX$price)
 modelX$average_review_rating <- as.numeric(modelX$average_review_rating)
 modelX$number_of_reviews <- as.numeric(modelX$number_of_reviews)
 
-modelX[is.na(modelX)] = 0 #решаем вопрос с NA, которые могли возникнуть из-за первоначального пропуска данных
+modelX[is.na(modelX)] = 0 
 dist2= cosine(t(modelX))
 
 Customer_choice = "0bdc3b566d4fe151f0339047c2eba36a"
